@@ -1,0 +1,78 @@
+.sidebar-scroll-content {
+    display: flex;
+    flex-direction: column;
+    padding-top: 16px;
+}
+
+.sidebar-section {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.sidebar-section:last-child {
+    border-bottom: none;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.1s;
+}
+
+.section-header:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.section-header span {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.section-items {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Override existing nav-link for Reddit style */
+.left-sidebar .nav-link {
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 0;
+    gap: 12px;
+}
+
+.left-sidebar .nav-link:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.left-sidebar .nav-icon {
+    font-size: 20px;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.community-icon-sm {
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chevron {
+    font-size: 10px;
+}

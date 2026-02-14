@@ -1,0 +1,189 @@
+/* ===== REDDIT-STYLE POST CARD ===== */
+
+.reddit-post-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 10px;
+    /* Space between posts */
+    cursor: pointer;
+    transition: border-color 0.2s;
+    overflow: hidden;
+    /* For images */
+}
+
+.reddit-post-card:hover {
+    border-color: var(--border-light);
+}
+
+.reddit-post-card.detailed-view {
+    cursor: default;
+    border: none;
+    background: transparent;
+}
+
+/* --- Header --- */
+.reddit-post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px;
+    font-size: 12px;
+}
+
+.post-community-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.community-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: var(--bg-tertiary);
+}
+
+.community-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.community-meta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.community-name {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.community-name:hover {
+    text-decoration: underline;
+}
+
+.post-meta-divider {
+    color: var(--text-secondary);
+}
+
+.post-time-ago {
+    color: var(--text-secondary);
+}
+
+.join-btn {
+    background-color: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.join-btn:hover {
+    background-color: #0060a8;
+}
+
+/* --- Content --- */
+.reddit-post-content {
+    padding: 0 8px 8px 8px;
+}
+
+.reddit-post-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 22px;
+}
+
+.reddit-post-body {
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 21px;
+    margin-bottom: 10px;
+    /* Styles for gradients/preview could go here */
+}
+
+.reddit-post-image {
+    width: 100%;
+    border-radius: 12px;
+    /* Smooth corners */
+    overflow: hidden;
+    max-height: 512px;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--border);
+}
+
+.reddit-post-image img {
+    max-width: 100%;
+    max-height: 512px;
+    object-fit: contain;
+}
+
+/* --- Actions --- */
+.reddit-post-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 8px 8px 8px;
+    /* Slightly less top padding */
+    color: var(--text-secondary);
+}
+
+.reddit-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    /* Pill shape clicking area */
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    /* Grey by default */
+    font-weight: 700;
+    font-size: 12px;
+    border-radius: 4px;
+    /* Soft square/pill hybrid */
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.reddit-action-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    /* Subtle white overlay */
+}
+
+/* Specific Vote Styling */
+.vote-btn {
+    padding: 2px 4px;
+    /* Tighter for vote pill */
+}
+
+.vote-btn:hover {
+    background-color: transparent;
+    /* Disable background on container if implementing specific arrow hovers, but for now simple */
+    /* background-color: rgba(255, 255, 255, 0.08); */
+}
+
+.vote-count {
+    min-width: 16px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-primary);
+    /* White number */
+}
+
+/* Override icons on hover if needed */
+.reddit-action-btn:hover svg {
+    /* fill: currentColor; eventually */
+}
