@@ -72,18 +72,30 @@ export default function PostCard({ post, onLikeChange, onDelete, currentUserId, 
             <div className="reddit-post-header">
                 <div className="post-community-info">
                     <div className="community-icon">
-                        <Link to={`/user/${post.user_id}`} onClick={(e) => e.stopPropagation()}>
-                            {post.avatar_url ? (
-                                <img src={post.avatar_url} alt={post.username} />
-                            ) : (
-                                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${post.username}`} alt={post.username} />
-                            )}
-                        </Link>
+                        {post.community_name ? (
+                            <img src={post.community_icon} alt={post.community_name} style={{ borderRadius: '50%' }} />
+                        ) : (
+                            <Link to={`/user/${post.user_id}`} onClick={(e) => e.stopPropagation()}>
+                                {post.avatar_url ? (
+                                    <img src={post.avatar_url} alt={post.username} />
+                                ) : (
+                                    <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${post.username}`} alt={post.username} />
+                                )}
+                            </Link>
+                        )}
                     </div>
                     <div className="community-meta">
-                        <Link to={`/user/${post.user_id}`} className="community-name" onClick={(e) => e.stopPropagation()}>
-                            r/{post.username}
-                        </Link>
+                        {post.community_name ? (
+                            <Link to={`/r/${post.community_name}`} className="community-name" onClick={(e) => e.stopPropagation()}>
+                                r/{post.community_name}
+                            </Link>
+                        ) : (
+                            <Link to={`/user/${post.user_id}`} className="community-name" onClick={(e) => e.stopPropagation()}>
+                                r/{post.username}
+                            </Link>
+                        )}
+                        <span className="post-meta-divider">•</span>
+                        <span className="post-author-attribution">Posted by u/{post.username}</span>
                         <span className="post-meta-divider">•</span>
                         <span className="post-time-ago">{formatDate(post.created_at)}</span>
                     </div>

@@ -1,0 +1,244 @@
+/* CommunityPage.css */
+.community-page {
+    background-color: #030303;
+    min-height: 100vh;
+}
+
+/* Banner */
+.community-banner {
+    height: 150px;
+    background: linear-gradient(to right, #0079D3, #004d86);
+    /* Default banner color */
+    background-size: cover;
+    background-position: center;
+}
+
+/* Header Section */
+.community-header {
+    background-color: #1A1D1F;
+    padding-bottom: 12px;
+}
+
+.community-header-content {
+    max-width: 984px;
+    margin: 0 auto;
+    padding: 0 16px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+
+.community-icon-large {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 4px solid #1A1D1F;
+    position: relative;
+    top: -16px;
+    margin-right: 16px;
+    background-color: #ffffff;
+}
+
+.community-title-section {
+    flex: 1;
+    padding-bottom: 8px;
+}
+
+.community-title-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 4px;
+}
+
+.community-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #D7DADC;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.community-subtext {
+    font-size: 14px;
+    color: #818384;
+    font-weight: 500;
+}
+
+.community-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-join {
+    background-color: #0079D3;
+    color: #ffffff;
+    border: 1px solid #0079D3;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-join.joined {
+    background: transparent;
+    border-color: #D7DADC;
+    color: #D7DADC;
+}
+
+.btn-join.joined:hover {
+    border-color: #D7DADC;
+    background-color: rgba(215, 218, 220, 0.1);
+    content: "Leave";
+}
+
+/* Page Layout */
+.community-container {
+    max-width: 984px;
+    margin: 20px auto;
+    display: flex;
+    gap: 24px;
+    padding: 0 16px;
+}
+
+.community-main {
+    flex: 1;
+    max-width: 640px;
+}
+
+.community-sidebar {
+    width: 312px;
+    display: none;
+}
+
+@media (min-width: 960px) {
+    .community-sidebar {
+        display: block;
+    }
+}
+
+/* Feed Controls */
+.feed-controls {
+    background-color: #1A1D1F;
+    border: 1px solid #343536;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 16px;
+}
+
+.sort-btn {
+    background: none;
+    border: none;
+    color: #818384;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sort-btn.active {
+    color: #D7DADC;
+    background-color: rgba(215, 218, 220, 0.1);
+    padding: 4px 8px;
+    border-radius: 20px;
+}
+
+/* Sidebar Cards */
+.community-card {
+    background-color: #1A1D1F;
+    border: 1px solid #343536;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.card-header-bar {
+    background-color: #0079D3;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+}
+
+.card-content {
+    padding: 12px;
+}
+
+.community-description {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    color: #D7DADC;
+}
+
+.community-stats {
+    display: flex;
+    border-bottom: 1px solid #343536;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.stat-item {
+    flex: 1;
+}
+
+.stat-count {
+    font-size: 16px;
+    font-weight: 700;
+    color: #D7DADC;
+    display: block;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #818384;
+}
+
+.cake-day {
+    font-size: 14px;
+    color: #818384;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.btn-create-post-sidebar {
+    width: 100%;
+    background-color: #D7DADC;
+    color: #1A1D1F;
+    border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-create-post-sidebar:hover {
+    background-color: #ffffff;
+}
+
+/* Rules Widget */
+.rules-list .rule-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #343536;
+    font-size: 14px;
+    display: flex;
+    gap: 8px;
+}
+
+.rules-list .rule-item:last-child {
+    border-bottom: none;
+}

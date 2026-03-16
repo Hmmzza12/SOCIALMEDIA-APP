@@ -8,17 +8,26 @@ const router = express.Router();
 // Get all posts (feed) - newest first
 router.get('/', async (req: Request, res: Response): Promise<void> => {
     try {
-        const [posts] = await db.query<RowDataPacket[]>(
-            `SELECT 
-        p.id, p.title, p.content, p.image_url, p.created_at,
+        const communityName = req.query.community as string;
+
+        let query = `SELECT 
+        p.id, p.title, p.content, p.image_url, p.community_name, p.community_icon, p.created_at,
         u.id as user_id, u.username, u.avatar_url,
         COUNT(DISTINCT l.id) as like_count
       FROM posts p
       JOIN users u ON p.user_id = u.id
-      LEFT JOIN likes l ON p.id = l.post_id
-      GROUP BY p.id, u.id
-      ORDER BY p.created_at DESC`
-        );
+      LEFT JOIN likes l ON p.id = l.post_id`;
+
+        const params: any[] = [];
+
+        if (communityName) {
+            query += ` WHERE p.community_name = ?`;
+            params.push(communityName);
+        }
+
+        query += ` GROUP BY p.id, u.id ORDER BY p.created_at DESC`;
+
+        const [posts] = await db.query<RowDataPacket[]>(query, params);
 
         res.json({ posts });
     } catch (error) {
@@ -75,7 +84,7 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
 // Create post (protected)
 router.post('/', authenticateToken, async (req: Request, res: Response): Promise<void> => {
     try {
-        const { title, content, image_url } = req.body;
+        const { title, content, image_url, community_name, community_icon } = req.body;
 
         if (!title || !content) {
             res.status(400).json({ error: 'Title and content are required' });
@@ -88,8 +97,8 @@ router.post('/', authenticateToken, async (req: Request, res: Response): Promise
         }
 
         const [result] = await db.query(
-            'INSERT INTO posts (user_id, title, content, image_url) VALUES (?, ?, ?, ?)',
-            [req.user!.userId, title, content, image_url || null]
+            'INSERT INTO posts (user_id, title, content, image_url, community_name, community_icon) VALUES (?, ?, ?, ?, ?, ?)',
+            [req.user!.userId, title, content, image_url || null, community_name || null, community_icon || null]
         );
 
         const postId = (result as any).insertId;

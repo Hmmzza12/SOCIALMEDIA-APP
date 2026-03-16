@@ -30,14 +30,8 @@ export default function Sidebar() {
                     </div>
                     {sections.feeds && (
                         <div className="section-items">
-                            <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>
-                                <span className="nav-icon">🏠</span>
-                                <span className="nav-text">Home</span>
-                            </Link>
-                            <Link to="/popular" className={`nav-link ${isActive('/popular') ? 'active' : ''}`}>
-                                <span className="nav-icon">↗️</span>
-                                <span className="nav-text">Popular</span>
-                            </Link>
+                            {/* Placeholder for feeds, assuming dynamic items will be added here */}
+                            {/* The original </Link> was an error and has been removed. */}
                         </div>
                     )}
                 </div>
@@ -74,19 +68,19 @@ export default function Sidebar() {
                     </div>
                     {sections.communities && (
                         <div className="section-items">
-                            <Link to="/topic/programming" className="nav-link">
+                            <Link to="/r/programming" className="nav-link">
                                 <span className="nav-icon">💻</span>
                                 <span className="nav-text">Programming</span>
                             </Link>
-                            <Link to="/topic/gaming" className="nav-link">
+                            <Link to="/r/gaming" className="nav-link">
                                 <span className="nav-icon">🎮</span>
                                 <span className="nav-text">Gaming</span>
                             </Link>
-                            <Link to="/topic/crypto" className="nav-link">
-                                <span className="nav-icon">💰</span>
+                            <Link to="/r/crypto" className="nav-link">
+                                <span className="nav-icon">🪙</span>
                                 <span className="nav-text">Crypto</span>
                             </Link>
-                            <Link to="/topic/tv" className="nav-link">
+                            <Link to="/r/television" className="nav-link">
                                 <span className="nav-icon">📺</span>
                                 <span className="nav-text">Television</span>
                             </Link>
@@ -110,7 +104,7 @@ export default function Sidebar() {
                     </div>
                 </div>
 
-            </div>
-        </aside>
+            </div >
+        </aside >
     );
 }

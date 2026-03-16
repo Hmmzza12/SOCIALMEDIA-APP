@@ -12,6 +12,7 @@ import CreatePost from './pages/CreatePost';
 import PostDetail from './pages/PostDetail';
 import Favorites from './pages/Favorites';
 import ChatPage from './pages/ChatPage';
+import CommunityPage from './pages/CommunityPage';
 
 // Protected route wrapper
 function ProtectedRoute({ children }) {
@@ -74,6 +75,8 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/create" element={<CreatePost />} />
               <Route path="/post/:id" element={<PostDetail />} />
+              <Route path="/search" element={<div style={{ padding: '20px', color: 'white' }}>Search page coming soon...</div>} />
+              <Route path="/r/:communityName" element={<CommunityPage />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/user/:id" element={<Profile />} />
               <Route path="/favorites" element={<Favorites />} />

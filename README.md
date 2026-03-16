@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Social Media Web Application
 
 A modern, Reddit-inspired full-stack social media application built with React, Node.js, Express, and MySQL.
@@ -226,3 +227,6 @@ This is a learning project. Feel free to fork and experiment!
 ---
 
 **Built with ❤️ using React, Express, and MySQL**
+=======
+# SOCIALMEDIA-APP
+>>>>>>> 519d197b4bd5ee6c6470f5be08a22b4ee4225c04
