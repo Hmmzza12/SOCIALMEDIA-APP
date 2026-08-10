@@ -3,17 +3,16 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import Database from 'better-sqlite3';
-import { testConnection } from './config/database';
+import { testConnection, execScript } from './config/database';
 
 // Import routes
 import authRoutes from './routes/auth.routes';
 import userRoutes from './routes/user.routes';
 import postRoutes from './routes/post.routes';
 import commentRoutes from './routes/comment.routes';
+import communityRoutes from './routes/community.routes';
 import notificationRoutes from './routes/notification.routes';
 import uploadRoutes from './routes/upload.routes';
-import communityRoutes from './routes/community.routes';
 
 // Load environment variables
 dotenv.config();
@@ -27,10 +26,13 @@ import chatRoutes from './routes/chat.routes';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:5173')
+    .split(',')
+    .map((o) => o.trim());
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
-        origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+        origin: allowedOrigins,
         credentials: true
     }
 });
@@ -83,7 +85,7 @@ app.set('io', io);
 
 // Middleware
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: allowedOrigins,
     credentials: true
 }));
 app.use(express.json());
@@ -102,19 +104,17 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/communities', communityRoutes);
 
-// ... (health check, 404)
+app.get('/health', (_req, res) => {
+    res.json({ status: 'ok' });
+});
 
 // Initialize database schema
-const initializeDatabase = () => {
+const initializeDatabase = async () => {
     try {
-        const dbPath = resolve(__dirname, '../database.sqlite');
-        const db = new Database(dbPath);
         const schemaPath = resolve(__dirname, 'schema.sql');
         const schema = readFileSync(schemaPath, 'utf-8');
-
-        db.exec(schema);
+        await execScript(schema);
         console.log('✅ Database schema initialized');
-        db.close();
     } catch (error) {
         console.error('❌ Failed to initialize database:', error);
     }
@@ -123,10 +123,10 @@ const initializeDatabase = () => {
 // Start server
 const startServer = async () => {
     // Initialize database schema
-    initializeDatabase();
+    await initializeDatabase();
 
     // Test database connection
-    const dbConnected = testConnection();
+    const dbConnected = await testConnection();
 
     if (!dbConnected) {
         console.error('Failed to connect to database. Please check your configuration.');
@@ -136,7 +136,7 @@ const startServer = async () => {
     httpServer.listen(PORT, () => {
         console.log(`🚀 Server running on http://localhost:${PORT}`);
         console.log(`B Environment: ${process.env.NODE_ENV || 'development'}`);
-        console.log(`💾 Database: SQLite`);
+        console.log(`💾 Database: Turso (libSQL)`);
         console.log(`🔌 Socket.IO initialized`);
     });
 };

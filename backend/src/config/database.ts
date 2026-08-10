@@ -1,24 +1,21 @@
-import Database from 'better-sqlite3';
-import { resolve } from 'path';
+import { createClient } from '@libsql/client';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Create SQLite database file path
-const dbPath = resolve(__dirname, '../../database.sqlite');
+const url = process.env.TURSO_DATABASE_URL || 'file:./database.sqlite';
+const authToken = process.env.TURSO_AUTH_TOKEN;
 
-// Initialize SQLite database
-const db = new Database(dbPath, { verbose: console.log });
-
-// Enable foreign keys
-db.pragma('foreign_keys = ON');
+const client = createClient(
+    url.startsWith('file:') ? { url } : { url, authToken }
+);
 
 // Test database connection
-export const testConnection = () => {
+export const testConnection = async () => {
     try {
-        const result = db.prepare('SELECT 1').get();
+        await client.execute('SELECT 1');
         console.log('✅ Database connected successfully');
-        console.log(`📁 Database file: ${dbPath}`);
+        console.log(`📁 Database: ${url.startsWith('file:') ? url : 'Turso (remote)'}`);
         return true;
     } catch (error) {
         console.error('❌ Database connection failed:', error);
@@ -26,35 +23,37 @@ export const testConnection = () => {
     }
 };
 
-// Wrapper to make SQLite work like mysql2/promise
-export const query = <T = any>(sql: string, params: any[] = []): Promise<[T, any]> => {
-    return new Promise((resolve, reject) => {
-        try {
-            if (sql.trim().toUpperCase().startsWith('SELECT')) {
-                const stmt = db.prepare(sql);
-                const rows = stmt.all(...params) as T;
-                resolve([rows, null]);
-            } else if (sql.trim().toUpperCase().startsWith('INSERT')) {
-                const stmt = db.prepare(sql);
-                const result = stmt.run(...params);
-                // Format like MySQL result with insertId
-                const insertResult = { insertId: result.lastInsertRowid, affectedRows: result.changes } as unknown as T;
-                resolve([insertResult, null]);
-            } else if (sql.trim().toUpperCase().startsWith('UPDATE') ||
-                sql.trim().toUpperCase().startsWith('DELETE')) {
-                const stmt = db.prepare(sql);
-                const result = stmt.run(...params);
-                const updateResult = { affectedRows: result.changes } as unknown as T;
-                resolve([updateResult, null]);
-            } else {
-                db.exec(sql);
-                resolve([[] as unknown as T, null]);
-            }
-        } catch (error) {
-            reject(error);
-        }
-    });
+// Wrapper to keep the mysql2-style [rows, meta] call signature used across all routes
+export const query = async <T = any>(sql: string, params: any[] = []): Promise<[T, any]> => {
+    const result = await client.execute({ sql, args: params });
+
+    const trimmed = sql.trim().toUpperCase();
+    if (trimmed.startsWith('SELECT') || trimmed.startsWith('PRAGMA')) {
+        return [result.rows as unknown as T, null];
+    }
+    if (trimmed.startsWith('INSERT')) {
+        const insertResult = {
+            insertId: Number(result.lastInsertRowid ?? 0),
+            affectedRows: result.rowsAffected,
+        } as unknown as T;
+        return [insertResult, null];
+    }
+    if (trimmed.startsWith('UPDATE') || trimmed.startsWith('DELETE')) {
+        const updateResult = { affectedRows: result.rowsAffected } as unknown as T;
+        return [updateResult, null];
+    }
+    return [[] as unknown as T, null];
 };
 
-// Export db instance for complex operations
+// Run a raw multi-statement script (used for schema initialization)
+export const execScript = async (sql: string): Promise<void> => {
+    const statements = sql
+        .split(';')
+        .map((s) => s.trim())
+        .filter(Boolean);
+    for (const statement of statements) {
+        await client.execute(statement);
+    }
+};
+
 export default { query };
