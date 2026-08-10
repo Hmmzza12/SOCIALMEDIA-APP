@@ -1,0 +1,136 @@
+.notif-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.notif-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    border: 2px solid var(--bg-secondary);
+    animation: badge-pop 0.3s cubic-bezier(0.18, 1.25, 0.4, 1);
+}
+
+.bell-pulse {
+    animation: bell-shake 0.6s ease;
+}
+
+@keyframes bell-shake {
+    0%, 100% { transform: rotate(0); }
+    20% { transform: rotate(14deg); }
+    40% { transform: rotate(-12deg); }
+    60% { transform: rotate(8deg); }
+    80% { transform: rotate(-6deg); }
+}
+
+.notif-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 360px;
+    max-width: 90vw;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    z-index: 200;
+}
+
+.notif-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.notif-header h4 {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.notif-list {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.notif-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s ease;
+}
+
+.notif-item:last-child {
+    border-bottom: none;
+}
+
+.notif-item:hover {
+    background: var(--bg-tertiary);
+}
+
+.notif-item.unread {
+    background: rgba(99, 102, 241, 0.06);
+}
+
+.notif-item.unread:hover {
+    background: rgba(99, 102, 241, 0.12);
+}
+
+.notif-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--bg-tertiary);
+}
+
+.notif-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.notif-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 14px;
+    line-height: 1.35;
+    color: var(--text-primary);
+}
+
+.notif-text b {
+    font-weight: 700;
+}
+
+.notif-time {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.notif-empty {
+    padding: 40px 16px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.notif-empty-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}

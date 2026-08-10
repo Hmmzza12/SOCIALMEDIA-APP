@@ -1,0 +1,30 @@
+.app-footer {
+    padding: 24px;
+    background-color: var(--bg-secondary, #1a1a1b);
+    color: var(--text-secondary, #818384);
+    font-size: 12px;
+    border-top: 1px solid var(--border-color, #343536);
+    margin-top: auto;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 16px;
+}
+
+.footer-links a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}

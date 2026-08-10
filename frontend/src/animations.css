@@ -1,0 +1,156 @@
+/* ===== GLOBAL ANIMATIONS & MICRO-INTERACTIONS ===== */
+
+/* --- Keyframes --- */
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.35); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes badge-pop {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* --- Page / route transition --- */
+.main-content > * {
+    animation: fade-in-up 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* --- Staggered feed cards --- */
+.posts-feed .reddit-post-card {
+    animation: fade-in-up 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.posts-feed .reddit-post-card:nth-child(1) { animation-delay: 0.02s; }
+.posts-feed .reddit-post-card:nth-child(2) { animation-delay: 0.07s; }
+.posts-feed .reddit-post-card:nth-child(3) { animation-delay: 0.12s; }
+.posts-feed .reddit-post-card:nth-child(4) { animation-delay: 0.17s; }
+.posts-feed .reddit-post-card:nth-child(5) { animation-delay: 0.22s; }
+.posts-feed .reddit-post-card:nth-child(6) { animation-delay: 0.27s; }
+.posts-feed .reddit-post-card:nth-child(n+7) { animation-delay: 0.3s; }
+
+/* --- Card hover lift --- */
+.reddit-post-card {
+    transition: transform 0.18s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform;
+}
+
+.reddit-post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* --- Interactive buttons: subtle press feedback --- */
+.btn,
+.reddit-action-btn,
+.icon-btn,
+.join-btn,
+.btn-login,
+.btn-signup,
+.btn-outline {
+    transition: transform 0.12s ease, background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:active,
+.reddit-action-btn:active,
+.icon-btn:active,
+.join-btn:active {
+    transform: scale(0.94);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(99, 102, 241, 0.4);
+}
+
+/* --- Like / bookmark pop --- */
+.pop-anim {
+    animation: pop 0.4s ease;
+}
+
+/* --- Dropdowns / modals scale-in --- */
+.search-dropdown,
+.notif-dropdown,
+.modal-content {
+    animation: scale-in 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform-origin: top center;
+}
+
+/* --- Shimmer skeletons (upgrade of loading-skeleton) --- */
+.loading-skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--bg-tertiary) 0px,
+        var(--bg-secondary) 200px,
+        var(--bg-tertiary) 400px
+    );
+    background-size: 800px 100%;
+    animation: shimmer 1.4s infinite linear;
+    border-radius: var(--radius-md);
+}
+
+/* --- Spinner --- */
+.spinner {
+    width: 22px;
+    height: 22px;
+    border: 3px solid var(--border-light);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+}
+
+/* --- Auth entrance --- */
+.auth-box {
+    animation: scale-in 0.4s cubic-bezier(0.18, 1.1, 0.4, 1);
+}
+
+/* --- Respect reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
