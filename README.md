@@ -76,19 +76,20 @@ This app deploys as three pieces:
 | Piece | Where | Why |
 |---|---|---|
 | Database | [Turso](https://turso.tech) | Managed, edge-hosted libSQL (SQLite-compatible) |
-| Backend | [Render](https://render.com) | Node web service for Express + Socket.IO |
+| Backend | [Back4app Containers](https://www.back4app.com/container-as-a-service) | Free Docker hosting for Express + Socket.IO |
 | Frontend | [Netlify](https://netlify.com) | Static hosting for the Vite build |
 
 ### Database (Turso)
 1. Create a database in the Turso dashboard or CLI (`turso db create pulse`).
 2. Grab the database URL (`turso db show pulse --url`) and an auth token (`turso db tokens create pulse`).
 
-### Backend (Render)
-1. In Render, choose **New > Blueprint** and connect this repository. Render reads `render.yaml` from the repository root.
-2. Enter `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` when prompted. Render generates the JWT secrets automatically.
-3. After deployment, copy the service's `https://...onrender.com` URL.
-4. Set Netlify's `VITE_API_URL` to that URL plus `/api`, then trigger a new Netlify deploy.
-5. Uploaded images use the service's ephemeral local filesystem and can disappear after a restart or redeploy. Use object storage for durable uploads.
+### Backend (Back4app Containers)
+1. Create a Back4app Web Deployment app and connect this GitHub repository.
+2. Select `main`, set the root directory to `backend`, and use the repository's `backend/Dockerfile`.
+3. Add `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `FRONTEND_URL`, and `NODE_ENV=production` as environment variables.
+4. Choose the free container and deploy. Back4app supplies the public port through `PORT`; the server reads it automatically.
+5. Copy the generated service URL, set Netlify's `VITE_API_URL` to that URL plus `/api`, and trigger a new Netlify deploy.
+6. Uploaded images use the container's ephemeral local filesystem and can disappear after a restart or redeploy. Use object storage for durable uploads.
 
 ### Frontend (Netlify)
 1. Create a new Netlify site from the `frontend/` directory of this repo (base directory = `frontend`).
