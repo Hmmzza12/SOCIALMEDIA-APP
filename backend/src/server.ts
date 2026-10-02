@@ -25,7 +25,7 @@ import chatRoutes from './routes/chat.routes';
 // ... (existing imports)
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:5173')
     .split(',')
     .map((o) => o.trim());
@@ -133,7 +133,7 @@ const startServer = async () => {
         process.exit(1);
     }
 
-    httpServer.listen(PORT, () => {
+    httpServer.listen(PORT, '0.0.0.0', () => {
         console.log(`🚀 Server running on http://localhost:${PORT}`);
         console.log(`B Environment: ${process.env.NODE_ENV || 'development'}`);
         console.log(`💾 Database: Turso (libSQL)`);

@@ -76,18 +76,19 @@ This app deploys as three pieces:
 | Piece | Where | Why |
 |---|---|---|
 | Database | [Turso](https://turso.tech) | Managed, edge-hosted libSQL (SQLite-compatible) |
-| Backend | [Railway](https://railway.app) | Persistent Node process for Express + Socket.IO |
+| Backend | [Render](https://render.com) | Node web service for Express + Socket.IO |
 | Frontend | [Netlify](https://netlify.com) | Static hosting for the Vite build |
 
 ### Database (Turso)
 1. Create a database in the Turso dashboard or CLI (`turso db create pulse`).
 2. Grab the database URL (`turso db show pulse --url`) and an auth token (`turso db tokens create pulse`).
 
-### Backend (Railway)
-1. Create a new Railway project from the `backend/` directory of this repo (root directory = `backend`).
-2. Set environment variables: `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `FRONTEND_URL` (your Netlify URL, comma-separate if you need more than one origin).
-3. Railway auto-detects the Node app via Nixpacks and runs `npm run build` then `npm start` (see `backend/railway.json`).
-4. Note: uploaded images are stored on local disk (`backend/uploads`), which is **ephemeral** on Railway's default filesystem — attach a Railway volume mounted at `backend/uploads` if you need uploads to survive redeploys.
+### Backend (Render)
+1. In Render, choose **New > Blueprint** and connect this repository. Render reads `render.yaml` from the repository root.
+2. Enter `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` when prompted. Render generates the JWT secrets automatically.
+3. After deployment, copy the service's `https://...onrender.com` URL.
+4. Set Netlify's `VITE_API_URL` to that URL plus `/api`, then trigger a new Netlify deploy.
+5. Uploaded images use the service's ephemeral local filesystem and can disappear after a restart or redeploy. Use object storage for durable uploads.
 
 ### Frontend (Netlify)
 1. Create a new Netlify site from the `frontend/` directory of this repo (base directory = `frontend`).
