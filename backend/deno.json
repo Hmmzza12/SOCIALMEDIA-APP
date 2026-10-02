@@ -1,0 +1,11 @@
+{
+  "deploy": {
+    "install": "npm install",
+    "build": "npm run build",
+    "runtime": {
+      "type": "dynamic",
+      "entrypoint": "./dist/server.js",
+      "cwd": "."
+    }
+  }
+}

@@ -76,25 +76,24 @@ This app deploys as three pieces:
 | Piece | Where | Why |
 |---|---|---|
 | Database | [Turso](https://turso.tech) | Managed, edge-hosted libSQL (SQLite-compatible) |
-| Backend | [Back4app Containers](https://www.back4app.com/container-as-a-service) | Free Docker hosting for Express + Socket.IO |
+| Backend | [Deno Deploy](https://deno.com/deploy) | Free hosting for the Express + Socket.IO API |
 | Frontend | [Netlify](https://netlify.com) | Static hosting for the Vite build |
 
 ### Database (Turso)
 1. Create a database in the Turso dashboard or CLI (`turso db create pulse`).
 2. Grab the database URL (`turso db show pulse --url`) and an auth token (`turso db tokens create pulse`).
 
-### Backend (Back4app Containers)
-1. Create a Back4app Web Deployment app and connect this GitHub repository.
-2. Select `main`, set the root directory to `backend`, and use the repository's `backend/Dockerfile`.
-3. Add `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `FRONTEND_URL`, and `NODE_ENV=production` as environment variables.
-4. Choose the free container and deploy. Back4app supplies the public port through `PORT`; the server reads it automatically.
-5. Copy the generated service URL, set Netlify's `VITE_API_URL` to that URL plus `/api`, and trigger a new Netlify deploy.
-6. Uploaded images use the container's ephemeral local filesystem and can disappear after a restart or redeploy. Use object storage for durable uploads.
+### Backend (Deno Deploy)
+1. Create a Deno Deploy app and connect this GitHub repository.
+2. Select `main` and set the app directory to `backend`. Deno Deploy reads the build and runtime settings from `backend/deno.json`.
+3. Add `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`, `FRONTEND_URL`, `PORT=3001`, and `NODE_ENV=production` as production environment variables.
+4. Deploy the app, copy its production URL, set Netlify's `VITE_API_URL` to that URL plus `/api`, and trigger a new Netlify deploy.
+5. Uploaded images use ephemeral local storage and can disappear after a restart or redeploy. Use object storage for durable uploads.
 
 ### Frontend (Netlify)
 1. Create a new Netlify site from the `frontend/` directory of this repo (base directory = `frontend`).
 2. Build command: `npm run build`, publish directory: `dist` (already configured in `frontend/netlify.toml`).
-3. Set environment variable `VITE_API_URL` to your Railway backend URL + `/api` (e.g. `https://your-app.up.railway.app/api`).
+3. Set environment variable `VITE_API_URL` to your Deno Deploy backend URL plus `/api`.
 
 ## API Endpoints
 
